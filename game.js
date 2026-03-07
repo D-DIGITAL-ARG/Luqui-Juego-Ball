@@ -193,9 +193,9 @@ class Game {
 
         // Físicas (Valores iniciales aproximados)
         this.physicsConfig = {
-            gravity: new Vec2(0, 0.0003), // MUCHO MAS LENTO
+            gravity: new Vec2(0, 0.0001), // MUCHO MAS LENTO
             floorRestitution: 0.3,
-            friction: 0.4
+            friction: 0.3
         };
         this.rigidBodies = []; // Guarda todas las figuras dibujadas/objetos
 
@@ -831,3 +831,4 @@ class Game {
 window.addEventListener('DOMContentLoaded', () => {
     window.game = new Game();
 });
+
