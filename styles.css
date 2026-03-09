@@ -1,11 +1,9 @@
-/* Color Palette */
+/* Color Palette dynamically set by JS */
 :root {
-    --acid-pink: #ff00ff;
-    --acid-yellow: #ccff00;
-    --acid-cyan: #00ffff;
-    --acid-purple: #8a2be2;
-    --signal-dark: #1a1a1a;
-    --signal-green: #00ff41;
+    --primary: #00ffff;
+    --background-dark: #0f2323;
+    --hazard: #fac415;
+    --ball: #f97316;
 }
 
 * {
@@ -15,7 +13,6 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
-    /* Prevent scroll on touch devices */
 }
 
 body,
@@ -23,9 +20,44 @@ html {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #111;
-    font-family: 'Space Mono', monospace;
-    /* Default technical font */
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Background Layers from screen-niveles-pro.png */
+.grid-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    /* Base Color */
+    background-color: #016067;
+    /* Composite Background: Dots + Horizontal Stripes + Glows */
+    background-image:
+        /* Subtle Dot Grid */
+        radial-gradient(circle at 2px 2px, rgba(0, 255, 255, 0.03) 1px, transparent 0),
+        /* Horizontal Scanlines/Stripes */
+        repeating-linear-gradient(to bottom,
+            rgba(0, 255, 255, 0.08),
+            rgba(0, 255, 255, 0.01) 40px,
+            transparent 40px,
+            transparent 60px),
+        /* Vignette/Glow effect */
+        radial-gradient(circle at 50% 50%, transparent, rgba(0, 0, 0, 0.4));
+    background-size: 40px 40px, 100% 40px, 100% 100%;
+}
+
+body.expert-mode .grid-bg {
+    background-color: #48260bf6;
+    background-image:
+        radial-gradient(circle at 2px 2px, rgba(255, 140, 0, 0.03) 1px, transparent 0),
+        repeating-linear-gradient(to bottom,
+            rgba(255, 140, 0, 0.15),
+            rgba(255, 140, 0, 0.05) 40px,
+            transparent 40px,
+            transparent 60px),
+        radial-gradient(circle at 50% 50%, transparent, rgba(0, 0, 0, 0.6));
 }
 
 /* Base Canvas */
@@ -37,55 +69,6 @@ html {
     position: relative;
 }
 
-/* Gradient Blur Background (Acid Blur) 
-   Provides a soft but vibrant atmosphere */
-.background-gradient {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    background: radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(204, 255, 0, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.3) 0%, transparent 60%);
-    filter: blur(60px);
-    animation: pulseGradient 10s infinite alternate;
-}
-
-@keyframes pulseGradient {
-    0% {
-        transform: scale(1);
-    }
-
-    100% {
-        transform: scale(1.1);
-    }
-}
-
-/* Expert Mode (Dark/Red theme override) */
-body.expert-mode {
-    background-color: #050000;
-}
-
-body.expert-mode .background-gradient {
-    /* More aggressive deep reds and purples */
-    background: radial-gradient(circle at 20% 30%, rgba(255, 0, 50, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(200, 0, 0, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(150, 0, 255, 0.3) 0%, transparent 60%);
-    animation: pulseGradientFast 5s infinite alternate;
-}
-
-@keyframes pulseGradientFast {
-    0% {
-        transform: scale(1) rotate(0deg);
-    }
-
-    100% {
-        transform: scale(1.2) rotate(5deg);
-    }
-}
-
 /* UI Overlay Layer */
 #ui-layer {
     position: absolute;
@@ -94,7 +77,6 @@ body.expert-mode .background-gradient {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    /* Let clicks pass to canvas */
     z-index: 10;
     display: flex;
     flex-direction: column;
@@ -106,47 +88,57 @@ body.expert-mode .background-gradient {
 .signal-graphics {
     display: flex;
     justify-content: space-between;
-    color: var(--signal-green);
+    color: var(--primary);
     font-size: 1.2rem;
-    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
-    border-bottom: 2px dashed rgba(0, 255, 65, 0.3);
-    padding-bottom: 15px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    background: rgba(8, 161, 161, 0.05);
+    backdrop-filter: blur(8px);
+    padding: 15px 20px;
+    border-radius: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     pointer-events: auto;
-    /* Enable clicks on the header/buttons */
 }
 
-/* Naïve Typography and Shapes */
-.naive-text {
-    font-family: 'Kalam', cursive;
-    /* Evokes spontaneous drawing */
-    color: white;
-    text-align: center;
-    line-height: 1.4;
+.expert-mode .signal-graphics {
+    color: #ff8c00;
+    border-bottom-color: rgba(255, 140, 0, 0.1);
+    background: rgba(90, 40, 15, 0.05);
+    text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
 }
 
+/* Neon Glows */
+.neon-glow-primary {
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.neon-glow-hazard {
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
+}
+
+/* Modals Refined Interface */
 #start-modal,
 #feedback-modal,
 #reward-modal,
 #pro-modal,
 #final-modal {
     pointer-events: auto;
-    /* Enable clicks inside modal */
-    background: rgba(26, 26, 26, 0.85);
-    backdrop-filter: blur(10px);
-    border: 3px solid var(--acid-yellow);
-    border-radius: 20px 5px 20px 5px;
-    /* Irregular "drawn" shape */
-    padding: 30px;
-    width: 100%;
+    background-color: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    width: 90%;
     max-width: 500px;
     margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    box-shadow: 10px 10px 0px rgba(204, 255, 0, 0.3);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    color: white;
+    text-align: center;
 }
 
 #start-modal h2,
@@ -155,9 +147,19 @@ body.expert-mode .background-gradient {
 #pro-modal h2,
 #final-modal h2 {
     font-size: 2.5rem;
-    color: var(--acid-pink);
-    transform: rotate(-3deg);
-    /* Slight childlike tilt */
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.expert-mode #start-modal h2,
+.expert-mode #feedback-modal h2,
+.expert-mode #reward-modal h2,
+.expert-mode #pro-modal h2,
+.expert-mode #final-modal h2 {
+    color: #ff8c00;
+    text-shadow: 0 0 10px rgba(255, 140, 0, 0.4);
 }
 
 .hidden {
@@ -166,28 +168,55 @@ body.expert-mode .background-gradient {
 
 /* Signal Buttons (Technical tools) */
 .signal-btn {
-    background: rgba(0, 0, 0, 0.4);
-    color: var(--acid-cyan);
-    border: 1px solid var(--acid-cyan);
-    font-family: 'Space Mono', monospace;
-    font-size: 1rem;
+    background-color: var(--primary);
+    color: #050f0f;
+    font-weight: 700;
+    font-size: 1.2rem;
     padding: 12px 24px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     text-transform: uppercase;
     letter-spacing: 1px;
+    border-radius: 1rem;
+    border: none;
+    border-bottom: 4px solid rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+.signal-btn-exp {
+    background-color: #ff8c00;
+    color: #050f0f;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 1rem;
+    border: none;
+    border-bottom: 4px solid rgba(0, 0, 0, 0.2);
+    width: 100%;
 }
 
 .signal-btn:hover {
-    background: var(--acid-cyan);
-    color: #000;
-    box-shadow: 0 0 15px var(--acid-cyan);
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+.signal-btn:active {
+    transform: translateY(2px);
+    border-bottom-width: 1px;
+}
+
+.expert-mode .signal-btn {
+    background-color: #ff8c00;
 }
 
 /* Trinket Design (Rewards) */
 .trinket-badge {
     font-size: 5rem;
-    filter: drop-shadow(0 0 25px var(--acid-yellow));
+    filter: drop-shadow(0 0 25px var(--hazard));
     animation: floatTrinket 3s ease-in-out infinite;
 }
 
