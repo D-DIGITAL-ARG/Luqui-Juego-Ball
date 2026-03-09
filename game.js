@@ -190,6 +190,8 @@ class Game {
         this.isPlaying = false;
         this.currentLevelIndex = 0;
         this.score = 0;
+        document.getElementById('full-restart').style.display = 'none';
+        document.getElementById('in-game-retry').style.display = 'none';
 
         // Físicas (Valores iniciales aproximados)
         this.physicsConfig = {
@@ -220,20 +222,24 @@ class Game {
         // UI Bindings
         document.getElementById('start-pro-btn').addEventListener('click', () => {
             document.getElementById('start-modal').classList.add('hidden');
-            this.currentLevelIndex = 9;
+            this.currentLevelIndex = 1;
 console.log(`load level pro`);
             this.loadLevel(this.currentLevelIndex - 1);
             this.isPlaying = true;
             this.lastTime = performance.now();
+            document.getElementById('full-restart').style.display = '';
+            document.getElementById('in-game-retry').style.display = '';
         });
 
         document.getElementById('start-expert-btn').addEventListener('click', () => {
             document.getElementById('start-modal').classList.add('hidden');
-            this.currentLevelIndex = 19;
+            this.currentLevelIndex = 11;
 console.log(`load level expert`);
             this.loadLevel(this.currentLevelIndex - 1);
             this.isPlaying = true;
             this.lastTime = performance.now();
+            document.getElementById('full-restart').style.display = '';
+            document.getElementById('in-game-retry').style.display = '';
         });
 
         document.getElementById('restart-game-btn').addEventListener('click', () => {
@@ -787,9 +793,11 @@ console.log(`LEVEL: `, levels);
 if (this.currentLevelIndex >= 10) {
 	const nivelActual = this.currentLevelIndex -10
         title.innerText = `¡Nivel ${nivelActual} EXPERTO Superado!`;
+        document.getElementById('in-game-retry').style.display = 'none';
 } else {
 	const nivelActual = this.currentLevelIndex
         title.innerText = `¡Nivel ${nivelActual} PRO Superado!`;
+        document.getElementById('in-game-retry').style.display = 'none';
 }
 
 
@@ -797,11 +805,11 @@ if (this.currentLevelIndex >= 10) {
 
         const nextBtn = document.getElementById('next-btn');
         nextBtn.onclick = () => {
+            document.getElementById('in-game-retry').style.display = '';
             rewardModal.classList.add('hidden');
             this.currentLevelIndex++;
             // Wrap around if finishing expert mode or handle win screen, optionally
             if (this.currentLevelIndex > 20) {
-console.log(FIN);
                 this.currentLevelIndex = 0; // restart or handle final win screen later
             }
             this.loadLevel(this.currentLevelIndex - 1);
