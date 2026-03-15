@@ -337,138 +337,136 @@ console.log(`dark mode no: `, index);
         let cy = this.height / 2;
 
         const levels = [
-            // Level 1: Basic drop - Caja grande
-            { bx: cx * 0.5, by: cy * 0.6, tx: cx * 0.5, ty: this.height - 150, tw: 150, th: 150, type: 'box', obstacles: [] },
-            // Level 2: Offset (Needs a slope) - Caja chica
-            { bx: cx * 0.3, by: cy * 0.6, tx: cx * 1.5, ty: this.height - 120, tw: 80, th: 100, type: 'box', obstacles: [] },
-            // Level 3: Wall block in the middle
+            // Level 1: Basic drop
+            { bx: this.width * 0.2, by: this.height * 0.15, tx: this.width * 0.5, ty: this.height * 0.75, tw: 150, th: 150, type: 'box', obstacles: [] },
+            // Level 2: Offset
+            { bx: this.width * 0.1, by: this.height * 0.15, tx: this.width * 0.8, ty: this.height * 0.8, tw: 80, th: 100, type: 'box', obstacles: [] },
+            // Level 3: Wall block
             {
-                bx: cx * 0.3, by: cy * 0.8, tx: cx * 1.7, ty: this.height - 150, tw: 120, th: 120, type: 'box', obstacles: [
-                    [{ x: cx, y: cy * 0.5 }, { x: cx, y: this.height }] // Muro vertical
+                bx: this.width * 0.1, by: this.height * 0.15, tx: this.width * 0.85, ty: this.height * 0.8, tw: 120, th: 120, type: 'box', obstacles: [
+                    [{ x: this.width * 0.5, y: this.height * 0.3 }, { x: this.width * 0.5, y: this.height }]
                 ]
             },
-            // Level 4: Funnel (Embudo) structure
+            // Level 4: Funnel
             {
-                bx: cx * 0.4, by: 100, tx: cx - 50, ty: this.height - 100, tw: 100, th: 80, type: 'box', obstacles: [
-                    [{ x: cx - 200, y: cy }, { x: cx - 70, y: cy + 150 }],
-                    [{ x: cx + 200, y: cy }, { x: cx + 70, y: cy + 150 }]
+                bx: this.width * 0.5, by: this.height * 0.1, tx: this.width * 0.45, ty: this.height * 0.85, tw: 100, th: 80, type: 'box', obstacles: [
+                    [{ x: this.width * 0.1, y: this.height * 0.4 }, { x: this.width * 0.4, y: this.height * 0.6 }],
+                    [{ x: this.width * 0.9, y: this.height * 0.4 }, { x: this.width * 0.6, y: this.height * 0.6 }]
                 ]
             },
-            // Level 5: Static Tunnel bounds
+            // Level 5: Tunnel
             {
-                bx: cx * 0.4, by: 100, tx: cx + 300, ty: this.height - 150, tw: 100, th: 100, type: 'box', obstacles: [
-                    [{ x: cx - 150, y: cy - 50 }, { x: cx + 150, y: cy - 50 }], // Techo tunel
-                    [{ x: cx - 150, y: cy + 50 }, { x: cx + 150, y: cy + 50 }]  // Piso tunel
+                bx: this.width * 0.1, by: this.height * 0.5, tx: this.width * 0.8, ty: this.height * 0.5, tw: 100, th: 100, type: 'box', obstacles: [
+                    [{ x: this.width * 0.3, y: this.height * 0.4 }, { x: this.width * 0.7, y: this.height * 0.4 }],
+                    [{ x: this.width * 0.3, y: this.height * 0.6 }, { x: this.width * 0.7, y: this.height * 0.6 }]
                 ]
             },
-            // Level 6: Floating zone with platform underneath
+            // Level 6: Floating zone
             {
-                bx: cx - 350, by: 200, tx: cx + 200, ty: cy, tw: 100, th: 100, type: 'zone', obstacles: [
-                     [{ x: cx + 200, y: cy + 100 }, { x: cx + 300, y: cy + 100 }] // Plataforma bajo la zona
+                bx: this.width * 0.1, by: this.height * 0.2, tx: this.width * 0.7, ty: this.height * 0.4, tw: 100, th: 100, type: 'zone', obstacles: [
+                    [{ x: this.width * 0.6, y: this.height * 0.55 }, { x: this.width * 0.8, y: this.height * 0.55 }]
                 ]
             },
-            // Level 7: Multiple random walls
+            // Level 7: Zig Zag
             {
-                bx: cx + 200, by: 100, tx: cx - 300, ty: this.height - 120, tw: 120, th: 120, type: 'box', obstacles: [
-                    [{ x: cx, y: 100 }, { x: cx, y: 300 }],
-                    [{ x: cx - 150, y: 300 }, { x: cx - 150, y: this.height }]
+                bx: this.width * 0.8, by: this.height * 0.1, tx: this.width * 0.1, ty: this.height * 0.85, tw: 120, th: 120, type: 'box', obstacles: [
+                    [{ x: this.width * 0.3, y: this.height * 0.3 }, { x: this.width, y: this.height * 0.3 }],
+                    [{ x: 0, y: this.height * 0.6 }, { x: this.width * 0.7, y: this.height * 0.6 }]
                 ]
             },
-            // Level 8: Zig Zag setup
+            // Level 8: Cascade
             {
-                bx: cx, by: 100, tx: cx, ty: this.height - 120, tw: 150, th: 150, type: 'box', obstacles: [
-                    [{ x: cx - 200, y: 250 }, { x: cx + 100, y: 350 }],
-                    [{ x: cx + 200, y: 450 }, { x: cx - 100, y: 550 }]
+                bx: this.width * 0.5, by: this.height * 0.1, tx: this.width * 0.5, ty: this.height * 0.8, tw: 150, th: 150, type: 'box', obstacles: [
+                    [{ x: this.width * 0.2, y: this.height * 0.3 }, { x: this.width * 0.6, y: this.height * 0.4 }],
+                    [{ x: this.width * 0.8, y: this.height * 0.5 }, { x: this.width * 0.4, y: this.height * 0.6 }]
                 ]
             },
-            // Level 9: Narrow gap dropping
+            // Level 9: Narrow shaft
             {
-                bx: cx - 200, by: 100, tx: cx + 250, ty: this.height - 150, tw: 100, th: 150, type: 'box', obstacles: [
-                    [{ x: cx, y: 0 }, { x: cx, y: cy - 50 }],
-                    [{ x: cx, y: cy + 50 }, { x: cx, y: this.height }]
+                bx: this.width * 0.2, by: this.height * 0.1, tx: this.width * 0.8, ty: this.height * 0.8, tw: 100, th: 150, type: 'box', obstacles: [
+                    [{ x: this.width * 0.5, y: 0 }, { x: this.width * 0.5, y: this.height * 0.4 }],
+                    [{ x: this.width * 0.5, y: this.height * 0.6 }, { x: this.width * 0.5, y: this.height }]
                 ]
             },
-            // Level 10: Enclosed box start
+            // Level 10: Enclosed
             {
-                bx: cx - 400, by: 50, tx: cx + 350, ty: this.height - 100, tw: 80, th: 80, type: 'box', obstacles: [
-                    [{ x: cx - 200, y: cy }, { x: cx - 100, y: cy }],
-                    [{ x: cx + 100, y: cy }, { x: cx + 200, y: cy }],
-                    [{ x: cx - 50, y: cy + 150 }, { x: cx + 50, y: cy + 150 }]
+                bx: this.width * 0.1, by: this.height * 0.1, tx: this.width * 0.8, ty: this.height * 0.85, tw: 80, th: 80, type: 'box', obstacles: [
+                    [{ x: this.width * 0.3, y: this.height * 0.4 }, { x: this.width * 0.5, y: this.height * 0.4 }],
+                    [{ x: this.width * 0.7, y: this.height * 0.6 }, { x: this.width * 0.5, y: this.height * 0.6 }]
                 ]
             },
-            // --- EXPERT MODE LEVELS ---
-            // Level 11: Tight gap floating target
+            // --- EXPERT MODE ---
+            // Level 11
             {
-                bx: cx - 300, by: 50, tx: cx + 250, ty: cy - 100, tw: 80, th: 80, type: 'box', obstacles: [
-                    [{ x: cx - 100, y: 0 }, { x: cx - 100, y: cy + 50 }],
-                    [{ x: cx + 50, y: this.height }, { x: cx + 50, y: cy - 50 }]
+                bx: this.width * 0.1, by: this.height * 0.1, tx: this.width * 0.8, ty: this.height * 0.3, tw: 80, th: 80, type: 'box', obstacles: [
+                    [{ x: this.width * 0.4, y: 0 }, { x: this.width * 0.4, y: this.height * 0.6 }],
+                    [{ x: this.width * 0.6, y: this.height * 0.4 }, { x: this.width * 0.6, y: this.height }]
                 ]
             },
-            // Level 12: Suspended container, tiny gap
+            // Level 12
             {
-                bx: cx, by: 50, tx: cx, ty: cy + 150, tw: 60, th: 100, type: 'box', obstacles: [
-                    [{ x: cx - 100, y: 150 }, { x: cx - 50, y: 250 }],
-                    [{ x: cx + 100, y: 150 }, { x: cx + 50, y: 250 }],
-                    [{ x: cx - 200, y: 400 }, { x: cx + 200, y: 400 }]
+                bx: this.width * 0.5, by: this.height * 0.1, tx: this.width * 0.5, ty: this.height * 0.6, tw: 60, th: 100, type: 'box', obstacles: [
+                    [{ x: this.width * 0.3, y: this.height * 0.2 }, { x: this.width * 0.45, y: this.height * 0.3 }],
+                    [{ x: this.width * 0.7, y: this.height * 0.2 }, { x: this.width * 0.55, y: this.height * 0.3 }],
+                    [{ x: this.width * 0.2, y: this.height * 0.5 }, { x: this.width * 0.8, y: this.height * 0.5 }]
                 ]
             },
-            // Level 13: Multiple diagonal ramps
+            // Level 13
             {
-                bx: cx - 350, by: 50, tx: cx + 300, ty: this.height - 150, tw: 100, th: 80, type: 'box', obstacles: [
-                    [{ x: cx - 250, y: 200 }, { x: cx, y: 300 }],
-                    [{ x: cx + 250, y: 350 }, { x: cx - 50, y: 450 }],
-                    [{ x: cx - 250, y: 600 }, { x: cx + 150, y: 550 }]
+                bx: this.width * 0.1, by: this.height * 0.1, tx: this.width * 0.8, ty: this.height * 0.8, tw: 100, th: 80, type: 'box', obstacles: [
+                    [{ x: this.width * 0.1, y: this.height * 0.3 }, { x: this.width * 0.6, y: this.height * 0.4 }],
+                    [{ x: this.width * 0.9, y: this.height * 0.5 }, { x: this.width * 0.4, y: this.height * 0.6 }],
+                    [{ x: this.width * 0.1, y: this.height * 0.8 }, { x: this.width * 0.6, y: this.height * 0.7 }]
                 ]
             },
-            // Level 14: Vertical Plinko
+            // Level 14
             {
-                bx: cx, by: 50, tx: cx, ty: this.height - 100, tw: 120, th: 80, type: 'box', obstacles: [
-                    [{ x: cx - 100, y: 200 }, { x: cx + 50, y: 220 }],
-                    [{ x: cx + 100, y: 400 }, { x: cx - 50, y: 420 }],
-                    [{ x: cx - 100, y: 600 }, { x: cx + 50, y: 620 }]
+                bx: this.width * 0.5, by: this.height * 0.1, tx: this.width * 0.5, ty: this.height * 0.85, tw: 120, th: 80, type: 'box', obstacles: [
+                    [{ x: this.width * 0.3, y: this.height * 0.3 }, { x: this.width * 0.7, y: this.height * 0.35 }],
+                    [{ x: this.width * 0.7, y: this.height * 0.55 }, { x: this.width * 0.3, y: this.height * 0.6 }]
                 ]
             },
-            // Level 15: Target behind a huge wall
+            // Level 15
             {
-                bx: cx - 400, by: 50, tx: cx + 200, ty: this.height - 150, tw: 80, th: 80, type: 'box', obstacles: [
-                    [{ x: cx, y: 0 }, { x: cx, y: this.height - 200 }]
+                bx: this.width * 0.1, by: this.height * 0.1, tx: this.width * 0.8, ty: this.height * 0.8, tw: 80, th: 80, type: 'box', obstacles: [
+                    [{ x: this.width * 0.5, y: 0 }, { x: this.width * 0.5, y: this.height * 0.8 }]
                 ]
             },
-            // Level 16: Two thin towers and a small target
+            // Level 16
             {
-                bx: cx - 300, by: 50, tx: cx + 300, ty: this.height - 150, tw: 60, th: 80, type: 'box', obstacles: [
-                    [{ x: cx - 100, y: 300 }, { x: cx - 100, y: this.height }],
-                    [{ x: cx + 100, y: 200 }, { x: cx + 100, y: this.height }]
+                bx: this.width * 0.2, by: this.height * 0.1, tx: this.width * 0.8, ty: this.height * 0.8, tw: 60, th: 80, type: 'box', obstacles: [
+                    [{ x: this.width * 0.4, y: this.height * 0.4 }, { x: this.width * 0.4, y: this.height }],
+                    [{ x: this.width * 0.6, y: this.height * 0.3 }, { x: this.width * 0.6, y: this.height }]
                 ]
             },
-            // Level 17: U-Turn required
+            // Level 17
             {
-                bx: cx - 200, by: 200, tx: cx - 300, ty: 50, tw: 100, th: 80, type: 'box', obstacles: [
-                    [{ x: cx - 100, y: 0 }, { x: cx - 100, y: 400 }],
-                    [{ x: cx - 400, y: 400 }, { x: cx - 100, y: 400 }],
-                    [{ x: cx - 400, y: 0 }, { x: cx - 400, y: 200 }]
+                bx: this.width * 0.4, by: this.height * 0.3, tx: this.width * 0.2, ty: this.height * 0.1, tw: 100, th: 80, type: 'box', obstacles: [
+                    [{ x: this.width * 0.3, y: 0 }, { x: this.width * 0.3, y: this.height * 0.5 }],
+                    [{ x: this.width * 0.1, y: this.height * 0.5 }, { x: this.width * 0.3, y: this.height * 0.5 }],
+                    [{ x: this.width * 0.1, y: 0 }, { x: this.width * 0.1, y: this.height * 0.3 }]
                 ]
             },
-            // Level 18: Zone target suspended mid-air
+            // Level 18
             {
-                bx: cx - 400, by: 100, tx: cx + 200, ty: 200, tw: 100, th: 100, type: 'zone', obstacles: [
-                    [{ x: cx, y: 0 }, { x: cx, y: 400 }],
-                    [{ x: cx + 100, y: 400 }, { x: cx + 400, y: 400 }]
+                bx: this.width * 0.1, by: this.height * 0.1, tx: this.width * 0.7, ty: this.height * 0.2, tw: 100, th: 100, type: 'zone', obstacles: [
+                    [{ x: this.width * 0.5, y: 0 }, { x: this.width * 0.5, y: this.height * 0.5 }],
+                    [{ x: this.width * 0.6, y: this.height * 0.5 }, { x: this.width * 0.9, y: this.height * 0.5 }]
                 ]
             },
-            // Level 19: Extremely narrow shaft
+            // Level 19
             {
-                bx: cx, by: 50, tx: cx, ty: this.height - 150, tw: 80, th: 100, type: 'box', obstacles: [
-                    [{ x: cx - 50, y: 200 }, { x: cx - 50, y: this.height - 300 }],
-                    [{ x: cx + 50, y: 200 }, { x: cx + 50, y: this.height - 300 }]
+                bx: this.width * 0.5, by: this.height * 0.1, tx: this.width * 0.5, ty: this.height * 0.8, tw: 80, th: 100, type: 'box', obstacles: [
+                    [{ x: this.width * 0.4, y: this.height * 0.3 }, { x: this.width * 0.4, y: this.height * 0.7 }],
+                    [{ x: this.width * 0.6, y: this.height * 0.3 }, { x: this.width * 0.6, y: this.height * 0.7 }]
                 ]
             },
-            // Level 20: The Ultimate Challenge
+            // Level 20
             {
-                bx: cx - 400, by: 50, tx: cx + 300, ty: cy - 100, tw: 70, th: 70, type: 'box', obstacles: [
-                    [{ x: cx - 200, y: 0 }, { x: cx - 200, y: cy + 100 }],
-                    [{ x: cx, y: this.height }, { x: cx, y: cy - 100 }],
-                    [{ x: cx + 200, y: 0 }, { x: cx + 200, y: cy + 100 }]
+                bx: this.width * 0.1, by: this.height * 0.1, tx: this.width * 0.8, ty: this.height * 0.4, tw: 70, th: 70, type: 'box', obstacles: [
+                    [{ x: this.width * 0.3, y: 0 }, { x: this.width * 0.3, y: this.height * 0.6 }],
+                    [{ x: this.width * 0.5, y: this.height }, { x: this.width * 0.5, y: this.height * 0.4 }],
+                    [{ x: this.width * 0.7, y: 0 }, { x: this.width * 0.7, y: this.height * 0.6 }]
                 ]
             }
         ];

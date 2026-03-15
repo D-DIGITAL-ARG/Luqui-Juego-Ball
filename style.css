@@ -174,14 +174,21 @@ body.expert-mode .grid-bg {
 @media (max-width: 768px) {
     .signal-graphics {
         flex-direction: column;
-        padding: 8px;
-        font-size: 0.9rem;
-        gap: 5px;
+        padding: 6px 10px;
+        font-size: 0.85rem;
+        gap: 3px;
+        border-radius: 0.5rem;
     }
     
     .header-group {
         width: 100%;
         justify-content: space-between;
+        gap: 5px;
+    }
+
+    .signal-graphics .signal-btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
     }
 
     #start-modal,
@@ -189,8 +196,11 @@ body.expert-mode .grid-bg {
     #reward-modal,
     #pro-modal,
     #final-modal {
-        padding: 1.5rem;
-        gap: 15px;
+        padding: 1.25rem;
+        gap: 12px;
+        width: 85%;
+        max-height: 85vh;
+        overflow-y: auto;
     }
 
     #start-modal h2,
@@ -198,20 +208,21 @@ body.expert-mode .grid-bg {
     #reward-modal h2,
     #pro-modal h2,
     #final-modal h2 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
 
     #start-modal p {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        line-height: 1.4;
     }
 
     .signal-btn, .signal-btn-exp {
-        font-size: 1rem;
-        padding: 10px 18px;
+        font-size: 0.9rem;
+        padding: 8px 16px;
     }
     
     .trinket-badge {
-        font-size: 3.5rem;
+        font-size: 3rem;
     }
 }
 
